@@ -3,6 +3,7 @@ import swaggerUI from "swagger-ui-express";
 import swaggerJSDocument from "swagger-jsdoc";
 
 const app = express();
+const router = express.Router();
 
 app.use(
 	"/swagger",
@@ -17,12 +18,12 @@ app.use(
 				},
 				servers: [
 					{
-						url: "http://localhost:9999",
-						description: "Локальный сервер разработки",
+						url: "http://localhost:9999/api/",
+						description: "API для разработки",
 					},
 					{
-						url: "https://compete.wtf",
-						description: "Основной сервер",
+						url: "https://compete.wtf/api/",
+						description: "API для продакшена",
 					},
 				],
 			},
@@ -31,30 +32,28 @@ app.use(
 	),
 );
 
+app.use("/api", router);
+
 /**
  * @swagger
  * /settings:
  *  get:
  *   summary: "Получить настройки"
  *   tags:
- *     - Settings
+ *     - Настройки
  *   responses:
  *     200:
  *        description: Успешно
- */
-app.get("/settings", (_, res) => res.send("Return settings"));
-
-/**
- * @swagger
- * /settings:
  *  patch:
  *   summary: "Изменить настройки"
  *   tags:
- *     - Settings
+ *    - Настройки
  *   responses:
  *     200:
  *        description: Успешно
  */
-app.patch("/settings", (req, res) => res.send("Change setting or settings"));
+router.route("/settings")
+	.get((_, res) => res.send("Return settings"))
+	.patch((req, res) => res.send("Change setting or settings"));
 
 app.listen(9999, () => console.log("[SERVER STARTED]"));
