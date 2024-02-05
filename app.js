@@ -4,8 +4,12 @@ import swaggerJSDocument from "swagger-jsdoc";
 import mongoose from "mongoose";
 import { createTunnel } from "tunnel-ssh";
 
+import settingsRouter from "./routes/settings.js";
+import uploadRouter from "./routes/upload.js";
+
 const app = express();
-const router = express.Router();
+
+app.use(express.json());
 
 app.use(
 	"/swagger",
@@ -29,12 +33,12 @@ app.use(
 					},
 				],
 			},
-			apis: ["./app.js"],
+			apis: ["./routes/*.js"],
 		}),
 	),
 );
 
-app.use("/api", router);
+app.use("/api", settingsRouter, uploadRouter);
 
 createTunnel(
 	{},
@@ -59,34 +63,11 @@ createTunnel(
 	} else {
 		mongoose
 			.connect(
-				"mongodb://127.0.0.1:27017/?serverSelectionTimeoutMS=2000&appName=mongosh+2.1.3&directConnection=true&tls=false",
+				"mongodb://127.0.0.1:27017/site?serverSelectionTimeoutMS=2000&appName=mongosh+2.1.3&directConnection=true&tls=false",
 			)
 			.then(_ => console.log("[DATABASE OK]"))
 			.catch(_ => console.log("[DATABASE ERROR]"));
 	}
 });
-
-/**
- * @swagger
- * /settings:
- *  get:
- *   summary: "Получить настройки"
- *   tags:
- *     - Настройки
- *   responses:
- *     200:
- *        description: Успешно
- *  patch:
- *   summary: "Изменить настройки"
- *   tags:
- *    - Настройки
- *   responses:
- *     200:
- *        description: Успешно
- */
-router
-	.route("/settings")
-	.get((_, res) => res.send("Return settings"))
-	.patch((req, res) => res.send("Change setting or settings"));
 
 app.listen(9999, () => console.log("[SERVER OK]"));
