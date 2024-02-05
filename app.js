@@ -3,9 +3,12 @@ import swaggerUI from "swagger-ui-express";
 import swaggerJSDocument from "swagger-jsdoc";
 import mongoose from "mongoose";
 import { createTunnel } from "tunnel-ssh";
+import { configDotenv } from "dotenv";
 
-import settingsRouter from "./routes/settings.js";
-import uploadRouter from "./routes/upload.js";
+import settingsRouter from "./routes/settings.router.js";
+import uploadRouter from "./routes/upload.router.js";
+
+configDotenv();
 
 const app = express();
 
