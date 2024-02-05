@@ -4,9 +4,12 @@ import swaggerJSDocument from "swagger-jsdoc";
 import mongoose from "mongoose";
 import { createTunnel } from "tunnel-ssh";
 import { configDotenv } from "dotenv";
+import passport from "passport";
+import SteamStrategy from "passport-steam";
 
 import settingsRouter from "./routes/settings.router.js";
 import uploadRouter from "./routes/upload.router.js";
+import authRouter from "./routes/auth.router.js";
 
 configDotenv();
 
@@ -41,7 +44,7 @@ app.use(
 	),
 );
 
-app.use("/api", settingsRouter, uploadRouter);
+app.use("/api", settingsRouter, uploadRouter, authRouter);
 
 createTunnel(
 	{},
@@ -72,5 +75,22 @@ createTunnel(
 			.catch(_ => console.log("[DATABASE ERROR]"));
 	}
 });
+
+passport.use(
+	new SteamStrategy(
+		{
+			returnURL: "http://localhost:9999/api/auth/steam/return",
+			realm: "http://localhost:9999/",
+			apiKey: process.env.STEAM_API_KEY,
+		},
+		// функция ниже выполняется, если юзер нажал "Войти" и успешно вошел на странице Steam
+		function (identifier, profile, done) {
+			console.log({ identifier, profile, done });
+			User.findByOpenID({ openId: identifier }, function (err, user) {
+				return done(err, user);
+			});
+		},
+	),
+);
 
 app.listen(9999, () => console.log("[SERVER OK]"));
