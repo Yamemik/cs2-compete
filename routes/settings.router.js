@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import settingsModel from "../models/settings.model.js";
+import { settingController } from "../controllers/settings.controller.js";
 
 const router = Router();
 
@@ -40,21 +40,6 @@ const router = Router();
  *               items:
  *                 type: string
  */
-router
-	.route("/settings")
-	.get(async (_, res) => {
-		const settings = await settingsModel.find({});
-		res.json(settings);
-	})
-	.patch(async (req, res) => {
-		const settings = await settingsModel.updateMany(
-			{},
-			{
-				$set: req.body,
-			},
-			{ upsert: true },
-		);
-		res.json(settings);
-	});
+router.route("/settings").get(settingController.GET).patch(settingController.PATCH);
 
 export default router;

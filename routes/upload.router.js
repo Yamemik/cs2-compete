@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import multer from "multer";
+import { uploadController } from "../controllers/upload.controller.js";
 
 const router = Router();
 
@@ -27,8 +28,6 @@ const _multer = multer({
  *     200:
  *        description: Успешно
  */
-router.route("/upload").post(_multer.single("file"), (req, res) => {
-	res.json({ message: "Upload file on server" });
-});
+router.route("/upload").post(_multer.single("file"), uploadController.POST);
 
 export default router;
