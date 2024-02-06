@@ -1,34 +1,24 @@
 import mongoose from "mongoose";
 
-/* const userSchema = new mongoose.Schema({
-
-   friends_list: {
-      type: [{
-         type: mongoose.Schema.Types.ObjectId,
-         ref: "User"
-      }],
-      require: false,
-      default: [],
-   },
-   statistics: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Statistics',
-   },
-
-}, {
-   timestamps: true
-}); */
-
 const userSchema = new mongoose.Schema(
 	{
 		steam_id: String,
 		steam_nickname: String,
 		steam_avatar: String,
-		steam_friends: Array, // привязать
+		steam_friends: {
+			type: [
+				{
+					type: mongoose.Schema.Types.ObjectId,
+					ref: "Statistics",
+				},
+			],
+			require: true,
+			default: [],
+		},
 		stats: {
-         type: mongoose.Schema.Types.ObjectId,
-         ref: "Statistics"
-      }, // привязать
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Statistics",
+		},
 		revenue: {
 			type: Number,
 			default: 0,
