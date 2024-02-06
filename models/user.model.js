@@ -1,19 +1,7 @@
-import mongoose, { UserSchema } from 'mongoose';
+import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
-   nickname: {
-      type: String,
-      require: true,
-   },
-   is_admin: {
-      type: Boolean,
-      require: true,
-      default: false,
-   },
-   balance: {
-      type: Number,
-      default: 0,
-   },
+/* const userSchema = new mongoose.Schema({
+
    friends_list: {
       type: [{
          type: mongoose.Schema.Types.ObjectId,
@@ -26,17 +14,40 @@ const UserSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Statistics',
    },
-   password_hash: {
-      type: String,
-      require: false,
-   },
-   key_hash: {
-      type: String,
-      require: false,
-   },
 
 }, {
    timestamps: true
-});
+}); */
 
-export default mongoose.model("User", UserSchema);
+const userSchema = new mongoose.Schema(
+	{
+		steam_id: String,
+		steam_nickname: String,
+		steam_avatar: String,
+		steam_friends: Array, // привязать
+		stats: {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: "Statistics"
+      }, // привязать
+		revenue: {
+			type: Number,
+			default: 0,
+			require: true,
+		},
+		balance: {
+			type: Number,
+			default: 0,
+			require: true,
+		},
+		is_admin: {
+			type: Boolean,
+			default: false,
+			require: true,
+		},
+	},
+	{ timestamps: true },
+);
+
+const userModel = mongoose.model("User", userSchema);
+
+export default userModel;

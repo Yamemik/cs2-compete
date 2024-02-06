@@ -20,5 +20,8 @@
 		"swagger-ui-express": "^5.0.0",
 		"tunnel-ssh": "^5.1.2"
 	},
-	"type": "module"
+	"type": "module",
+	"devDependencies": {
+		"nodemon": "^3.0.3"
+	}
 }

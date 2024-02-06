@@ -1,37 +1,43 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from "mongoose";
 
+const statisticsSchema = new mongoose.Schema(
+	{
+		winrate: {
+			type: Number,
+			require: true,
+			default: 0,
+		},
+		kd: {
+			type: Number,
+			require: true,
+			default: 0,
+		},
+		hs: {
+			type: Number,
+			requre: true,
+			default: 0,
+		},
+		count_matches: {
+			default: 0,
+			require: true,
+			type: Number,
+		},
+		last_matches: {
+			type: Array,
+			require: true,
+			default: [],
+		},
+		rank: {
+			type: Number,
+			require: true,
+         default: 0
+		},
+	},
+	{
+		timestamps: true,
+	},
+);
 
-const StatisticsSchema = new mongoose.Schema({
-   count_matches: {
-      type: Number,
-      require: true,
-   },
-   winrate: {
-      type: Number,
-      require: true,
-   },
-   profit: {
-      type: Number,
-      require: true,
-   },
-   kd: {
-      type: Number,
-      require: true,
-   },
-   last_result: {
-      type: Array,
-      require: true,
-   },
-   hs: {
-      type: Number,
-      requre: true,
-   },
-   rate: {
-      type: Number,
-      require: true,
-   }
-}, {
-   timestamps: true,
-});
+const statisticsModel = mongoose.model("Statistics", statisticsSchema);
 
-export default mongoose.model("Statistics", StatisticsSchema);
+export default statisticsModel;

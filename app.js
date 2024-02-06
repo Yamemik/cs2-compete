@@ -86,9 +86,9 @@ passport.use(
 		// функция ниже выполняется, если юзер нажал "Войти" и успешно вошел на странице Steam
 		function (identifier, profile, done) {
 			console.log({ identifier, profile, done });
-			User.findByOpenID({ openId: identifier }, function (err, user) {
+			/* User.findByOpenID({ openId: identifier }, function (err, user) {
 				return done(err, user);
-			});
+			}); */
 		},
 	),
 );
