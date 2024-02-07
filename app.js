@@ -7,23 +7,25 @@ import { configDotenv } from "dotenv";
 import passport from "passport";
 import SteamStrategy from "passport-steam";
 import session from "express-session";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 import settingsRouter from "./routes/settings.router.js";
 import uploadRouter from "./routes/upload.router.js";
 import paymentRouter from "./routes/payment.router.js";
 import authRouter from "./routes/auth.router.js";
 import usersRouter from "./routes/users.router.js";
-import { createServer } from "http";
-import { Server } from "socket.io";
+import userModel from "./models/user.model.js";
 
 configDotenv();
 
 const app = express();
 const httpServer = createServer(app);
 
-// TODO: разрешить cors-ы (socket.io options server)
 const io = new Server(httpServer, {
-	/* options */
+	cors: {
+		origin: ["https://compete.wtf", "http://compete.wtf", "http://localhost:3000"],
+	},
 });
 
 app.use(
@@ -111,5 +113,23 @@ passport.use(
 	),
 );
 
-// app.listen(9999, () => console.log("[SERVER OK]"));
+io.on("connection", socket => {
+	socket.on("online", async data => {
+		await userModel.findOneAndUpdate(
+			{
+				id: data.user_id,
+			},
+			{ is_online: true },
+		);
+	});
+	socket.on("disconnect", async () => {
+		await userModel.findOneAndUpdate(
+			{
+				id: data.user_id,
+			},
+			{ is_online: false },
+		);
+	});
+});
+
 httpServer.listen(9999, () => console.log("[SERVER OK]"));
