@@ -17,7 +17,7 @@ const router = Router();
  *      description: Успешно
  * /auth/steam/return:
  *  get:
- *   summary: "че это?"
+ *   summary: "Отследить переход на платформу после авторизации в Steam"
  *   tags:
  *     - Авторизация
  *   responses:
@@ -25,7 +25,7 @@ const router = Router();
  *      description: Успешно
  */
 router
-	.get("/auth/steam", passport.authenticate("steam"))
-	.get("/auth/steam/return", passport.authenticate("steam"), authController.GET);
+	.get("/auth/steam", passport.authenticate("steam", { session: false }))
+	.get("/auth/steam/return", passport.authenticate("steam", { session: false }), authController.GET);
 
 export default router;

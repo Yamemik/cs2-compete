@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
 	{
+		id: {
+			type: Number,
+			require: true,
+		},
 		steam_id: String,
 		steam_nickname: String,
 		steam_avatar: String,
@@ -9,7 +13,7 @@ const userSchema = new mongoose.Schema(
 			type: [
 				{
 					type: mongoose.Schema.Types.ObjectId,
-					ref: "Statistics",
+					ref: "User",
 				},
 			],
 			require: true,
@@ -18,6 +22,7 @@ const userSchema = new mongoose.Schema(
 		stats: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Statistics",
+			require: true,
 		},
 		revenue: {
 			type: Number,
@@ -30,6 +35,11 @@ const userSchema = new mongoose.Schema(
 			require: true,
 		},
 		is_admin: {
+			type: Boolean,
+			default: false,
+			require: true,
+		},
+		is_online: {
 			type: Boolean,
 			default: false,
 			require: true,

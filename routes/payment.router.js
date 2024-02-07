@@ -3,22 +3,24 @@ import { Router } from "express";
 import { paymentController } from "../controllers/payment.controller.js";
 const router = Router();
 
-/**
+/*
  * @swagger
  * /payments:
  *  get:
  *   summary: "Получить платёж"
  *   tags:
- *     - Настройки
+ *     - Финансы
  *   responses:
  *     200:
  *        description: Успешно
  *  patch:
+ *   tags:
+ *    - Финансы
  *   summary: "Изменить платёж"
  *  post:
  *   summary: "Создать платёж"
  *   tags:
- *    - Платежи
+ *    - Финансы
  *   responses:
  *     200:
  *        description: Успешно
