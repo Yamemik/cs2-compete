@@ -13,10 +13,18 @@ import uploadRouter from "./routes/upload.router.js";
 import paymentRouter from "./routes/payment.router.js";
 import authRouter from "./routes/auth.router.js";
 import usersRouter from "./routes/users.router.js";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 configDotenv();
 
 const app = express();
+const httpServer = createServer(app);
+
+// TODO: разрешить cors-ы (socket.io options server)
+const io = new Server(httpServer, {
+	/* options */
+});
 
 app.use(
 	session({
@@ -103,4 +111,5 @@ passport.use(
 	),
 );
 
-app.listen(9999, () => console.log("[SERVER OK]"));
+// app.listen(9999, () => console.log("[SERVER OK]"));
+httpServer.listen(9999, () => console.log("[SERVER OK]"));
