@@ -1,24 +1,24 @@
 import { Router } from "express";
 
-import { paymentsController } from "../controllers/payments.controller.js";
+import { messagesController } from "../controllers/messages.controller.js";
 const router = Router();
 
 /*
  * @swagger
- * /payments/getByUser:
+ * /messages:
  *  get:
- *   summary: "Получить платёжи юзера"
+ *   summary: "Получить сообщение по лобби"
  *   tags:
- *     - Настройки
+ *     - Чат
  *   responses:
  *     200:
  *        description: Успешно
  *  patch:
- *   summary: "Изменить платёж"
+ *   summary: "Изменить сообщение"
  *  post:
- *   summary: "Создать платёж"
+ *   summary: "Создать сообщение"
  *   tags:
- *    - Финансы
+ *    - Чат
  *   responses:
  *     200:
  *        description: Успешно
@@ -33,23 +33,17 @@ const router = Router();
  *             confirmation_type:
  *                type: string
  *                default: redirect
- *             confirmation_return_url:
- *                type: string
- *                default: https://cs2-compete.onrender.com/swagger
- *             description:
- *                type: string
- *                default: заказ #1
  *             metadata_user_id:
  *                type: string
  *                default: user_id
  * 
  * 
  * 
- * /payments/id:
+ * /messages/id:
  *  get:
- *   summary: "Получить платёж по ид"
+ *   summary: "Получить сообщение"
  *   tags:
- *     - Платежи
+ *     - Чат
  *   responses:
  *     200:
  *        description: Успешно
@@ -58,9 +52,8 @@ const router = Router();
  *       name: get_payment
  * 
  *  post:
- *   summary: "Создать возврат платежа"
  *   tags:
- *    - Платежи
+ *    - Чат
  *   responses:
  *     200:
  *        description: Успешно
@@ -75,20 +68,14 @@ const router = Router();
  *             confirmation_type:
  *                type: string
  *                default: redirect
- *             confirmation_return_url:
- *                type: string
- *                default: https://cs2-compete.onrender.com/swagger
- *             description:
- *                type: string
- *                default: заказ #1
  *             metadata_user_id:
  *                type: string
  *                default: user_id
  * 
  *  patch:
- *   summary: "Создать отмену платежа"
+ *   summary: "Изменить чат"
  *   tags:
- *    - Платежи
+ *    - Чат
  *   responses:
  *     200:
  *        description: Успешно
@@ -103,23 +90,17 @@ const router = Router();
  *             confirmation_type:
  *                type: string
  *                default: redirect
- *             confirmation_return_url:
- *                type: string
- *                default: https://cs2-compete.onrender.com/swagger
- *             description:
- *                type: string
- *                default: заказ #1
  *             metadata_user_id:
  *                type: string
  *                default: user_id
  * 
  * 
  * 
- * /payouts: 
+ * /chats: 
  *  post:
- *   summary: "Создать платёж"
+ *   summary: "Создать чат"
  *   tags:
- *    - Возвраты
+ *    - Чат
  *   responses:
  *     200:
  *        description: Успешно
@@ -134,21 +115,10 @@ const router = Router();
  *             confirmation_type:
  *                type: string
  *                default: redirect
- *             confirmation_return_url:
- *                type: string
- *                default: https://cs2-compete.onrender.com/swagger
- *             description:
- *                type: string
- *                default: заказ #1
- *             metadata_user_id:
- *                type: string
- *                default: user_id
  */
 
-router.route("/payments/get/:payment_id").get(paymentsController.GET_BY_ID)
-router.route("/payments/createCancel/:payment_id").post(paymentsController.POST_CANCEL)
-router.route("/payments/createRefund/:payment_id").post(paymentsController.POST_CREATE_REFUND);
-router.route("/payments/createPayment").post(paymentsController.POST_CREATE);
-router.route("/payouts/createPayout").post(paymentsController.POST_CREATE_PAYOUT);
+router.route("/messages/get/:lobby_id").get(messagesController.GET_BY_LOBBY)
+router.route("/messages/create/:lobby_id").post(messagesController.create)
+router.route("/messages/delete/:lobby_id").post(messagesController.DELETE);
 
 export default router;
